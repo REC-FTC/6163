@@ -50,9 +50,9 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Drew Drive2", group="Linear Opmode")
+@TeleOp(name="AutoLanderDrop", group="Linear Opmode")
 //@Disabled
-public class Drewisenslavingme2 extends LinearOpMode {
+public class AutoLanderDrop extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -60,14 +60,19 @@ public class Drewisenslavingme2 extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private DcMotor leftFrontDrive = null;
     private DcMotor rightFrontDrive = null;
+    //marker arm
+    private Servo markerArm = null;
+    //lift and hinge
+    private DcMotor hinge = null;
     private DcMotor lift = null;
+    //mineral stuff
     private DcMotor arm = null;
     private Servo leftHand = null;
     private Servo rightHand = null;
-    private Servo hookServo = null;
+
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -79,12 +84,12 @@ public class Drewisenslavingme2 extends LinearOpMode {
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "leftFront");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
         lift = hardwareMap.get(DcMotor.class, "lift");
-        arm = hardwareMap.get(DcMotor.class,"arm");
+        markerArm = hardwareMap.get(Servo.class,"markerServo");
+        hinge = hardwareMap.get(DcMotor.class, "hinge");
         leftHand = hardwareMap.get(Servo.class, "leftHand");
         rightHand = hardwareMap.get(Servo.class, "rightHand");
-        hookServo
-                = hardwareMap.get(Servo.class, "hookServo");
-
+        arm = hardwareMap.get(DcMotor.class, "arm");
+         
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -92,144 +97,20 @@ public class Drewisenslavingme2 extends LinearOpMode {
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
-        arm.setDirection(DcMotor.Direction.FORWARD);
+        hinge.setDirection(DcMotor.Direction.FORWARD);
 
-        // Wait for the game to start (driver presses PLAY)
-        waitForStart();
-        runtime.reset();
 
-        //mode id, 0 = normal sped, 1 = speedivided b dy the slow modifier
-        int mode = 0;
-        int slow = 3;
-        //int driveMode = 0;
-
-        //open or closed state for the mineral arm
-        int handState = 0;
-        leftHand.setPosition(0);
-        rightHand.setPosition(0);
-
-        int hookState = 0;
-        hookServo.setPosition(0);
-        // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
-
-            // Setup a variable for each drive wheel to save power level for telemetry
-            double leftPower;
-            double rightPower;
-
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
-            leftPower  = gamepad1.left_stick_y ; //USE THIS FOR UNIFORM DRIVE
-            rightPower = gamepad1.right_stick_y ;
-
-            /* code to make the robot drive straight easier
-            if(driveMode == 0){
-                if(mode == 0){
-                    drive(leftPower, rightPower);
-                } else {
-                    drive(leftPower / slow, rightPower / slow);
-                }
-            } else {
-                if(mode == 0){
-                    drive(leftPower);
-                } else {
-                    drive(leftPower / slow);
-                }
-            }
-             */
-
-            //mode change
-            if(gamepad1.a) {
-                if(mode == 0){
-                    mode = 1;
-                } else {
-                    mode = 0;
-                }
-            }
-
-            // Send calculated power to wheels
-            if(mode == 0){
-                drive(leftPower, rightPower);
-            } else {
-                drive(leftPower / slow, rightPower / slow);
-            }
-            /*if(gamepad1.b){
-                if(driveMode == 0){
-                    driveMode = 1;
-                } else {
-                    driveMode = 0;
-                }
-            }*/
-            //move the lift
-            if(gamepad2.dpad_down) {
-                lift.setPower(1);
-            }
-            else if(gamepad2.dpad_up) {
-                lift.setPower(-1);
-            }
-            else {
-                lift.setPower(0);
-            }
-
-
-            if(gamepad2.a){
-                if(handState == 0){
-                    handState = 1;
-                } else {
-                    handState = 0;
-                }
-            }
-            if(handState == 0){
-                leftHand.setPosition(180);
-                rightHand.setPosition(180);
-                telemetry.addData("Hand State: ", "Open - 180");
-            } else {
-                leftHand.setPosition(0);
-                rightHand.setPosition(0);
-                telemetry.addData("Hand State: ", "Closed - 0");
-            }
-
-
-            if(gamepad2.x) {
-                if(hookState == 0){
-                    hookState = 1;
-                } else {
-                    hookState = 0;
-                }
-            }
-
-            if(hookState == 1){
-                hookServo.setPosition(180);
-            } else {
-                hookServo.setPosition(0);
-            }
-
-            if(gamepad2.right_bumper){
-                arm.setPower(.3);
-            } else if(gamepad2.left_bumper) {
-                arm.setPower(-.3);
-            } else {
-                arm.setPower(0);
-            }
-
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-            telemetry.update();
+            lift.setPower(-0.5);
+            Thread.sleep(2500);
+    
+            lift.setPower(0);
+            
+            Thread.sleep(1000);
+    
+            hinge.setPower(-0.5);
+            Thread.sleep(300);
+            hinge.setPower(0);
         }
     }
-    public void drive(double lpower, double rpower){
-        leftBackDrive.setPower(lpower);
-        leftFrontDrive.setPower(lpower);
-        rightBackDrive.setPower(rpower);
-        rightFrontDrive.setPower(rpower);
-    }
-
-    public void drive(double power) {
-        leftBackDrive.setPower(power);
-        leftFrontDrive.setPower(power);
-        rightBackDrive.setPower(power);
-        rightFrontDrive.setPower(power);
-    }
-
 }
