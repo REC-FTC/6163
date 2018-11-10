@@ -34,7 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.Servo;
 // nsfiojaspofji vijsgpioadg iodfj;as
 
 /**
@@ -50,9 +50,9 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Drew Drive", group="Linear Opmode")
+@TeleOp(name="AutoMarkerDrop", group="Linear Opmode")
 //@Disabled
-public class Drewisenslavingme extends LinearOpMode {
+public class AutoMarkerDrop extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -60,10 +60,19 @@ public class Drewisenslavingme extends LinearOpMode {
     private DcMotor rightBackDrive = null;
     private DcMotor leftFrontDrive = null;
     private DcMotor rightFrontDrive = null;
-    private DcMotor lift;
+    //marker arm
+    private Servo markerArm = null;
+    //lift and hinge
+    private DcMotor hinge = null;
+    private DcMotor lift = null;
+    //mineral stuff
+    private DcMotor arm = null;
+    private Servo leftHand = null;
+    private Servo rightHand = null;
+
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -75,6 +84,12 @@ public class Drewisenslavingme extends LinearOpMode {
         leftFrontDrive  = hardwareMap.get(DcMotor.class, "leftFront");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
         lift = hardwareMap.get(DcMotor.class, "lift");
+        markerArm = hardwareMap.get(Servo.class,"markerArm");
+        hinge = hardwareMap.get(DcMotor.class, "hinge");
+        leftHand = hardwareMap.get(Servo.class, "leftHand");
+        rightHand = hardwareMap.get(Servo.class, "rightHand");
+        arm = hardwareMap.get(DcMotor.class, "arm");
+         
         // Most robots need the motor on one side to be reversed to drive forward
         // Reverse the motor that runs backwards when connected directly to the battery
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
@@ -82,44 +97,95 @@ public class Drewisenslavingme extends LinearOpMode {
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
-        // Wait for the game to start (driver presses PLAY)
+        hinge.setDirection(DcMotor.Direction.FORWARD);
+
         waitForStart();
         runtime.reset();
-
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-
-            // Setup a variable for each drive wheel to save power level for telemetry
-            double leftPower;
-            double rightPower;
-
-            // Choose to drive using either Tank Mode, or POV Mode
-            // Comment out the method that's not used.  The default below is POV.
-
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
-             leftPower  = gamepad1.left_stick_y ;
-             rightPower = gamepad1.right_stick_y ;
-
-            // Send calculated power to wheels
-            leftBackDrive.setPower(leftPower);
-            leftFrontDrive.setPower(leftPower);
-            rightBackDrive.setPower(rightPower);
-            rightFrontDrive.setPower(rightPower);
-            if(gamepad1.dpad_up) {
-                lift.setPower(1);
-            }
-            else if(gamepad1.dpad_down) {
-                lift.setPower(-1);
-            }
-            else {
-               lift.setPower(0);
-            } 
-
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-            telemetry.update();
+        
+        if (opModeIsActive()) {
+            lift.setPower(-0.5);
+            Thread.sleep(2500);
+    
+            lift.setPower(0);
+            
+            Thread.sleep(1000);
+    
+            hinge.setPower(-0.5);
+            Thread.sleep(300);
+            hinge.setPower(0);
+    
+    
+            leftBackDrive.setPower(0.5);
+            leftFrontDrive.setPower(0.5);
+            rightBackDrive.setPower(-0.5);
+            rightFrontDrive.setPower(-0.5);
+            Thread.sleep(500);
+    
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            
+            leftBackDrive.setPower(0.5);
+            leftFrontDrive.setPower(0.5);
+            rightBackDrive.setPower(0.5);
+            rightFrontDrive.setPower(0.5);
+            
+            Thread.sleep(1600);
+            
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            
+            lift.setPower(0.5);
+            Thread.sleep(1500);
+    
+            lift.setPower(0);
+            
+            leftBackDrive.setPower(-0.5);
+            leftFrontDrive.setPower(-0.5);
+            rightBackDrive.setPower(0.5);
+            rightFrontDrive.setPower(0.5);
+            
+            Thread.sleep(1000);
+            
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            
+            Thread.sleep(2000);
+            
+            leftBackDrive.setPower(0.5);
+            leftFrontDrive.setPower(0.5);
+            rightBackDrive.setPower(0.5);
+            rightFrontDrive.setPower(0.5);
+            
+            Thread.sleep(1000);
+            
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            
+            Thread.sleep(1000);
+            
+            markerArm.setPosition(1);
+            Thread.sleep(2000);
+            markerArm.setPosition(0.5);
+            
+            leftBackDrive.setPower(-0.5);
+            leftFrontDrive.setPower(-0.5);
+            rightBackDrive.setPower(0.5);
+            rightFrontDrive.setPower(0.5);
+            
+            Thread.sleep(700);
+            
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
         }
     }
 }
