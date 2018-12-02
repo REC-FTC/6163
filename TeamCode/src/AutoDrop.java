@@ -50,9 +50,9 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="AutoMarkerDrop", group="Linear Opmode")
+@TeleOp(name="AutoDrop", group="Linear Opmode")
 //@Disabled
-public class AutoMarkerDrop extends LinearOpMode {
+public class AutoDrop extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -98,13 +98,19 @@ public class AutoMarkerDrop extends LinearOpMode {
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         lift.setDirection(DcMotor.Direction.FORWARD);
         hinge.setDirection(DcMotor.Direction.FORWARD);
-
+        
         waitForStart();
         runtime.reset();
         
-        if (opModeIsActive()) {
+        if(opModeIsActive()){
+            // hinge.setPower(-0.5);
+            
+            // Thread.sleep(1000);
+            
+            // hinge.setPower(0);
+            
             lift.setPower(-0.5);
-            Thread.sleep(2500);
+            Thread.sleep(2400);
     
             lift.setPower(0);
             
@@ -113,79 +119,25 @@ public class AutoMarkerDrop extends LinearOpMode {
             hinge.setPower(-0.5);
             Thread.sleep(300);
             hinge.setPower(0);
-    
-    
+            
+            leftHand.setPosition(.25);
+            rightHand.setPosition(.75);
+            
             leftBackDrive.setPower(0.5);
             leftFrontDrive.setPower(0.5);
             rightBackDrive.setPower(-0.5);
             rightFrontDrive.setPower(-0.5);
             Thread.sleep(500);
-    
-            leftBackDrive.setPower(0);
-            leftFrontDrive.setPower(0);
-            rightBackDrive.setPower(0);
-            rightFrontDrive.setPower(0);
-            
-            leftBackDrive.setPower(0.5);
-            leftFrontDrive.setPower(0.5);
-            rightBackDrive.setPower(0.5);
-            rightFrontDrive.setPower(0.5);
-            
-            Thread.sleep(1600);
-            
             leftBackDrive.setPower(0);
             leftFrontDrive.setPower(0);
             rightBackDrive.setPower(0);
             rightFrontDrive.setPower(0);
             
             lift.setPower(0.5);
-            Thread.sleep(1500);
-    
-            lift.setPower(0);
-            
-            leftBackDrive.setPower(-0.5);
-            leftFrontDrive.setPower(-0.5);
-            rightBackDrive.setPower(0.5);
-            rightFrontDrive.setPower(0.5);
-            
-            Thread.sleep(1000);
-            
-            leftBackDrive.setPower(0);
-            leftFrontDrive.setPower(0);
-            rightBackDrive.setPower(0);
-            rightFrontDrive.setPower(0);
-            
-            Thread.sleep(2000);
-            
-            leftBackDrive.setPower(0.5);
-            leftFrontDrive.setPower(0.5);
-            rightBackDrive.setPower(0.5);
-            rightFrontDrive.setPower(0.5);
-            
-            Thread.sleep(1000);
-            
-            leftBackDrive.setPower(0);
-            leftFrontDrive.setPower(0);
-            rightBackDrive.setPower(0);
-            rightFrontDrive.setPower(0);
-            
-            Thread.sleep(1000);
-            
-            markerArm.setPosition(1);
-            Thread.sleep(2000);
-            markerArm.setPosition(0.5);
-            
-            leftBackDrive.setPower(-0.5);
-            leftFrontDrive.setPower(-0.5);
-            rightBackDrive.setPower(0.5);
-            rightFrontDrive.setPower(0.5);
-            
             Thread.sleep(700);
-            
-            leftBackDrive.setPower(0);
-            leftFrontDrive.setPower(0);
-            rightBackDrive.setPower(0);
-            rightFrontDrive.setPower(0);
+            lift.setPower(-0.5);
+            Thread.sleep(30);
+            lift.setPower(0);
         }
     }
 }
