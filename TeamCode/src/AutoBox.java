@@ -50,9 +50,9 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@TeleOp(name="ControllerDrive", group="Linear Opmode")
+@TeleOp(name="AutoBox", group="Linear Opmode")
 //@Disabled
-public class Controller6163 extends LinearOpMode {
+public class AutoBox extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
@@ -72,7 +72,7 @@ public class Controller6163 extends LinearOpMode {
 
 
     @Override
-    public void runOpMode() {
+    public void runOpMode() throws InterruptedException {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -99,123 +99,113 @@ public class Controller6163 extends LinearOpMode {
         lift.setDirection(DcMotor.Direction.FORWARD);
         hinge.setDirection(DcMotor.Direction.FORWARD);
 
-        // Wait for the game to start (driver presses PLAY)
+
         waitForStart();
         runtime.reset();
-
-        //mode id, 0 = normal sped, 1 = speedivided b dy the slow modifier
-        int mode = 0;
-        int slow = 4;
-
-        //open or closed state for the mineral arm
-        int handState = 0;
-
-        //leftHand.setPosition(1);
-        //rightHand.setPosition(0.5);
-
-        // run until the end of the match (driver presses STOP)
-        while (opModeIsActive()) {
-
-            // Setup a variable for each drive wheel to save power level for telemetry
-            double leftPower;
-            double rightPower;
-
-            // Tank Mode uses one stick to control each wheel.
-            // - This requires no math, but it is hard to drive forward slowly and keep straight.
-            leftPower  = gamepad1.left_stick_y;
-            rightPower = -gamepad1.right_stick_y;
+        
+        if (opModeIsActive()) {
+            lift.setPower(-0.5);
+            Thread.sleep(2400);
+    
+            lift.setPower(0);
+            
+            Thread.sleep(1000);
+    
+            hinge.setPower(-0.5);
+            Thread.sleep(300);
+            hinge.setPower(0);
+    
+    
+            leftBackDrive.setPower(0.5);
+            leftFrontDrive.setPower(0.5);
+            rightBackDrive.setPower(-0.5);
+            rightFrontDrive.setPower(-0.5);
+            Thread.sleep(500);
+    
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            
+            leftBackDrive.setPower(0.5);
+            leftFrontDrive.setPower(0.5);
+            rightBackDrive.setPower(0.5);
+            rightFrontDrive.setPower(0.5);
+            
+            Thread.sleep(1900);
+            
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            
+            lift.setPower(0.5);
+            Thread.sleep(1500);
+    
+            lift.setPower(0);
+            
+            leftBackDrive.setPower(-0.5);
+            leftFrontDrive.setPower(-0.5);
+            rightBackDrive.setPower(0.5);
+            rightFrontDrive.setPower(0.5);
+            
+            Thread.sleep(1400);
+            
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            
+            Thread.sleep(2000);
             
             
-            //mode change - 1 = normal speed, 0 = slow mode
-            if(gamepad1.a) {
-                if(mode == 0){
-                    mode = 1;
-                } else {
-                    mode = 0;
-                }
-            }
-
-            // Send calculated power to wheels
-            if(mode == 0){
-                leftPower  = gamepad1.left_stick_y;
-                rightPower = gamepad1.right_stick_y;
-            } else {
-                leftPower  = gamepad1.left_stick_y/slow;
-                rightPower = gamepad1.right_stick_y/slow;
-            }
+            leftBackDrive.setPower(0.5);
+            leftFrontDrive.setPower(0.5);
+            rightBackDrive.setPower(-0.5);
+            rightFrontDrive.setPower(-0.5);
             
-            //move the lift
-            if(gamepad2.dpad_down) {
-                lift.setPower(.75);
-            }
-            else if(gamepad2.dpad_up) {
-                lift.setPower(-.75);
-            }
-            else {
-                lift.setPower(0);
-            }
-
-            //move the hook thats on the lift
-            if(gamepad2.dpad_left) {
-                hinge.setPower(-0.125);
-            }
-            else if(gamepad2.dpad_right) {
-                hinge.setPower(0.125);
-            }
-            else {
-                hinge.setPower(0);
-            }
+            Thread.sleep(300);
             
-            // leftHand.setPosition(0.2 - gamepad2.left_trigger);
-            // rightHand.setPosition(gamepad2.right_trigger + 0.2);
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
             
-            //open and close the hand to grab minerals based on hand state
-            //DONT CHANGE THIS CHEF!!
-        /*    if(gamepad2.x){
-                if(handState == 0) {
-                    handState = 1;
-                    telemetry.addData("Hand state:", "s", handState);
-                } else if() {
-                    handState = 0;
-                    telemetry.addData("Hand state:", "s", handState);
-                }
-            } */
+            leftBackDrive.setPower(0.5);
+            leftFrontDrive.setPower(0.5);
+            rightBackDrive.setPower(0.5);
+            rightFrontDrive.setPower(0.5);
             
-            if(!gamepad2.x){
-                //closed
-                leftHand.setPosition(.0);
-                rightHand.setPosition(1);
-            } else if(gamepad2.x) {
-                //open
-                leftHand.setPosition(.25);
-                rightHand.setPosition(.75);
-            }
+            Thread.sleep(1400);
             
-            //lift and lower mineral arm
-            if(gamepad2.right_bumper){
-                arm.setPower(0.8);
-            } else if (gamepad2.left_bumper){
-                arm.setPower(-.8);
-            } else {
-                arm.setPower(0);
-            }
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
             
-            //test stuff for pre-auto
-            if(!(gamepad2.right_trigger == 0)){
-                markerArm.setPosition(1);
-            } else {
-                markerArm.setPosition(0);
-            }
-
-            //move the robot with dat calculated powah
-            leftBackDrive.setPower(leftPower);
-            leftFrontDrive.setPower(leftPower);
-            rightBackDrive.setPower(rightPower);
-            rightFrontDrive.setPower(rightPower);
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
-            telemetry.update();
+            Thread.sleep(1000);
+            
+            markerArm.setPosition(1);
+            Thread.sleep(2000);
+            markerArm.setPosition(0.5);
+            
+            leftBackDrive.setPower(-0.5);
+            leftFrontDrive.setPower(-0.5);
+            rightBackDrive.setPower(0.5);
+            rightFrontDrive.setPower(0.5);
+            
+            Thread.sleep(200);
+            
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            
+            lift.setPower(-0.5);
+            Thread.sleep(900);
+            lift.setPower(0.5);
+            Thread.sleep(30);
+            lift.setPower(0);
         }
     }
 }
