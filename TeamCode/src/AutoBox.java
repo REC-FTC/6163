@@ -105,7 +105,7 @@ public class AutoBox extends LinearOpMode {
         
         if (opModeIsActive()) {
             lift.setPower(-0.5);
-            Thread.sleep(2500);
+            Thread.sleep(2400);
     
             lift.setPower(0);
             
@@ -132,7 +132,7 @@ public class AutoBox extends LinearOpMode {
             rightBackDrive.setPower(0.5);
             rightFrontDrive.setPower(0.5);
             
-            Thread.sleep(1600);
+            Thread.sleep(1900);
             
             leftBackDrive.setPower(0);
             leftFrontDrive.setPower(0);
@@ -149,7 +149,7 @@ public class AutoBox extends LinearOpMode {
             rightBackDrive.setPower(0.5);
             rightFrontDrive.setPower(0.5);
             
-            Thread.sleep(1000);
+            Thread.sleep(1400);
             
             leftBackDrive.setPower(0);
             leftFrontDrive.setPower(0);
@@ -158,12 +158,25 @@ public class AutoBox extends LinearOpMode {
             
             Thread.sleep(2000);
             
+            
+            leftBackDrive.setPower(0.5);
+            leftFrontDrive.setPower(0.5);
+            rightBackDrive.setPower(-0.5);
+            rightFrontDrive.setPower(-0.5);
+            
+            Thread.sleep(300);
+            
+            leftBackDrive.setPower(0);
+            leftFrontDrive.setPower(0);
+            rightBackDrive.setPower(0);
+            rightFrontDrive.setPower(0);
+            
             leftBackDrive.setPower(0.5);
             leftFrontDrive.setPower(0.5);
             rightBackDrive.setPower(0.5);
             rightFrontDrive.setPower(0.5);
             
-            Thread.sleep(1000);
+            Thread.sleep(1400);
             
             leftBackDrive.setPower(0);
             leftFrontDrive.setPower(0);
@@ -181,7 +194,7 @@ public class AutoBox extends LinearOpMode {
             rightBackDrive.setPower(0.5);
             rightFrontDrive.setPower(0.5);
             
-            Thread.sleep(700);
+            Thread.sleep(200);
             
             leftBackDrive.setPower(0);
             leftFrontDrive.setPower(0);

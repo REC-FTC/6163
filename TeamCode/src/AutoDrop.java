@@ -120,24 +120,24 @@ public class AutoDrop extends LinearOpMode {
             Thread.sleep(300);
             hinge.setPower(0);
             
-            leftHand.setPosition(.25);
-            rightHand.setPosition(.75);
+            // leftHand.setPosition(.25);
+            // rightHand.setPosition(.75);
             
-            leftBackDrive.setPower(0.5);
-            leftFrontDrive.setPower(0.5);
-            rightBackDrive.setPower(-0.5);
-            rightFrontDrive.setPower(-0.5);
-            Thread.sleep(500);
-            leftBackDrive.setPower(0);
-            leftFrontDrive.setPower(0);
-            rightBackDrive.setPower(0);
-            rightFrontDrive.setPower(0);
+            // leftBackDrive.setPower(0.5);
+            // leftFrontDrive.setPower(0.5);
+            // rightBackDrive.setPower(-0.5);
+            // rightFrontDrive.setPower(-0.5);
+            // Thread.sleep(500);
+            // leftBackDrive.setPower(0);
+            // leftFrontDrive.setPower(0);
+            // rightBackDrive.setPower(0);
+            // rightFrontDrive.setPower(0);
             
-            lift.setPower(0.5);
-            Thread.sleep(700);
-            lift.setPower(-0.5);
-            Thread.sleep(30);
-            lift.setPower(0);
+            // lift.setPower(0.5);
+            // Thread.sleep(700);
+            // lift.setPower(-0.5);
+            // Thread.sleep(30);
+            // lift.setPower(0);
         }
     }
 }
